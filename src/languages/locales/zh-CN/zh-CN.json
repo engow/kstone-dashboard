@@ -87,5 +87,7 @@
   "StatusDescription": "状态描述",
   "LastUpdateTime": "最后更新时间",
   "User": "用户",
-  "Password": "密码"
+  "Password": "密码",
+  "Login": "登录",
+  "Logout": "登出"
 }

@@ -17,26 +17,21 @@
  */
 
 import {
-  ConfigProvider,
   Dropdown,
   Layout as AntdLayout,
   Menu,
   Button,
+  Form,
+  Input
 } from 'antd';
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import { LockOutlined, UserOutlined, DownOutlined } from '@ant-design/icons';
-import Banner from './banner';
-import './Login.css';
 import http from 'src/utils/http';
 import cookies from 'src/utils/cookies';
 import logo from '../../../src/logo.png';
 import { useTranslation } from 'react-i18next';
-import zhCN from 'antd/lib/locale/zh_CN';
-import enUS from 'antd/lib/locale/en_US';
 
-const { Header, Content, Sider } = AntdLayout;
-const { SubMenu } = Menu;
+const { Header, Content } = AntdLayout;
 
 const formLayout = {
   labelCol: { span: 6 },
@@ -44,15 +39,17 @@ const formLayout = {
 
 export function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const lang = localStorage.getItem('locale');
 
   const handleSubmit = async (values: any) => {
-    const res = await http.post('/apis/login', values);
-    console.log(res);
-    // TODO：登陆成功后往cookie里写token
-    cookies.set('token', '');
+    setLoading(true);
+    const resp: any = await http.post('/apis/login', values);
+    if (resp?.status === 200) {
+      cookies.set('token', resp.data.token);
+      window.location.href = '/cluster';
+    }
+    setLoading(false);
   };
   const handleMenuClick = (e: any) => {
     if (e.key === '1') {
@@ -72,21 +69,13 @@ export function Login(): JSX.Element {
     </Menu>
   );
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <AntdLayout style={{ height: '100%' }}>
       <Header style={{ position: 'fixed', zIndex: 1, width: '100%', padding: 0 }}>
         <div className="logo">
           <img src={logo} alt="logo" width="120px" />
-          {/* <div
-            className="exit"
-            onClick={() => {
-              handleLogOut();
-            }}
-          >
-            退出
-          </div> */}
           <Dropdown overlay={menus} trigger={['click', 'hover']}>
             <Button type="link" className="ant-dropdown-link" onClick={(e: any) => e.preventDefault()}>
               {lang === 'zh-CN' ? '中文' : 'English'} <DownOutlined />
@@ -94,7 +83,53 @@ export function Login(): JSX.Element {
           </Dropdown>
         </div>
       </Header>
-      <Content style={{ marginTop: '50px', height: '100%' }}>
+      <Content style={{ marginTop: '50px', height: '100%', textAlign: 'center' }}>
+        <div style={{
+          width: '300px',
+          height: '500px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginTop: '100px'
+        }}>
+          <Form name='login' {...formLayout} onFinish={handleSubmit}>
+            <div className='form-item'>
+              <Form.Item
+                name='username'
+                rules={[
+                  {
+                    required: true,
+                    message: t('User'),
+                  },
+                ]}
+              >
+                <Input allowClear autoFocus prefix={<UserOutlined className='site-form-item-icon' />} placeholder={t('User')} />
+              </Form.Item>
+            </div>
+            <div className='form-item'>
+              <Form.Item
+                name='password'
+                rules={[
+                  {
+                    required: true,
+                    message: t('Password'),
+                  },
+                ]}
+              >
+                <Input.Password autoComplete='off' prefix={<LockOutlined className='site-form-item-icon' />} placeholder={t('Password')} />
+              </Form.Item>
+            </div>
+
+            <div className='form-item'>
+              <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
+                {() => (
+                  <Button className='submit-btn' loading={loading} htmlType='submit'>
+                    {t('Login')}
+                  </Button>
+                )}
+              </Form.Item>
+            </div>
+          </Form>
+        </div>
       </Content>
     </AntdLayout>
   );

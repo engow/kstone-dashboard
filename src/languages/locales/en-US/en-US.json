@@ -87,5 +87,7 @@
   "StatusDescription": "Status Description",
   "LastUpdateTime": "Last update time",
   "User": "User",
-  "Password": "Password"
+  "Password": "Password",
+  "Login": "Login",
+  "Logout": "Logout"
 }

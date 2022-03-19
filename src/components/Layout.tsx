@@ -33,6 +33,7 @@ import { useTranslation } from 'react-i18next';
 import zhCN from 'antd/lib/locale/zh_CN';
 import enUS from 'antd/lib/locale/en_US';
 import cookies from 'src/utils/cookies';
+import { t } from 'i18next';
 
 const { Header, Content, Sider } = AntdLayout;
 const { SubMenu } = Menu;
@@ -54,7 +55,7 @@ const Layout = ({ menu }: { menu: any }): JSX.Element => {
     window.location.reload();
   };
 
-  const handleLogOut = () => {
+  const handleLogout = () => {
     cookies.remove("token");
     window.location.href = "/login";
   };
@@ -71,14 +72,11 @@ const Layout = ({ menu }: { menu: any }): JSX.Element => {
       <Header style={{ position: 'fixed', zIndex: 1, width: '100%', padding: 0 }}>
         <div className="logo">
           <img src={logo} alt="logo" width="120px" />
-          {/* <div
-            className="exit"
-            onClick={() => {
-              handleLogOut();
-            }}
-          >
-            退出
-          </div> */}
+          {
+            cookies.remove('token') !== '' ? <Button style={{ width: '100px', marginRight: '0', marginLeft: 'auto' }} type='link' block onClick={() => { handleLogout() }}>
+              {t('Logout')}
+            </Button> : null
+          }
           <Dropdown overlay={menus} trigger={['click', 'hover']}>
             <Button type="link" className="ant-dropdown-link" onClick={(e: any) => e.preventDefault()}>
               {lang === 'zh-CN' ? '中文' : 'English'} <DownOutlined />
