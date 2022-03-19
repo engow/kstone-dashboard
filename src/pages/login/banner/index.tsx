@@ -15,23 +15,19 @@
  * WARRANTIES OF ANY KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations under the License.
  */
- 
- .logo {
-  float: left;
-  margin: 0px 10px;
-  padding: 0px 50px 0 0px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+import './style.css';
+import logo from './logo.png';
+
+function Banner(): JSX.Element {
+  return (
+    <div className='root'>
+      <div className='logo'>
+        <img src={logo} alt='图标' />
+      </div>
+      <div className='login-bg'></div>
+    </div>
+  );
 }
 
-.site-layout .site-layout-background {
-  background: #fff;
-}
-
-/* .exit {
-  float: right;
-  color: #fff;
-  margin: 0px 30px;
-} */
+export default Banner;

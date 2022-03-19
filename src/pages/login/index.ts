@@ -15,23 +15,5 @@
  * WARRANTIES OF ANY KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations under the License.
  */
- 
- .logo {
-  float: left;
-  margin: 0px 10px;
-  padding: 0px 50px 0 0px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.site-layout .site-layout-background {
-  background: #fff;
-}
-
-/* .exit {
-  float: right;
-  color: #fff;
-  margin: 0px 30px;
-} */
+export * from './Login';
