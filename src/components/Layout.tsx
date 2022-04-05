@@ -73,7 +73,7 @@ const Layout = ({ menu }: { menu: any }): JSX.Element => {
         <div className="logo">
           <img src={logo} alt="logo" width="120px" />
           {
-            cookies.remove('token') !== '' ? <Button style={{ width: '100px', marginRight: '0', marginLeft: 'auto' }} type='link' block onClick={() => { handleLogout() }}>
+            cookies.get('token') !== '' ? <Button style={{ width: '100px', marginRight: '0', marginLeft: 'auto' }} type='link' block onClick={() => { handleLogout() }}>
               {t('Logout')}
             </Button> : null
           }

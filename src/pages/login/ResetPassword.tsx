@@ -37,23 +37,21 @@ const formLayout = {
   labelCol: { span: 6 },
 };
 
-export function Login(): JSX.Element {
+export function ResetPassword(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const { i18n, t } = useTranslation();
   const lang = localStorage.getItem('locale');
 
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    const resp: any = await http.post('/apis/login', values);
+    const resp: any = await http.put('/apis/user', {
+      username: values.username,
+      password: values.password,
+    });
     console.log(resp);
+    debugger;
     if (resp?.status === 200) {
-      cookies.set('token', resp.data.token);
-      debugger;
-      if (resp.data.reset_password) {
-        window.location.href = '/reset';
-      } else {
-        window.location.href = '/cluster';
-      }
+      window.location.href = '/login';
     }
     setLoading(false);
   };
@@ -118,8 +116,32 @@ export function Login(): JSX.Element {
                     message: t('PasswordMessage'),
                   },
                 ]}
+                hasFeedback
               >
                 <Input.Password autoComplete='off' prefix={<LockOutlined className='site-form-item-icon' />} placeholder={t('Password')} />
+              </Form.Item>
+            </div>
+            <div className='form-item'>
+              <Form.Item
+                name='confirm'
+                dependencies={['password']}
+                rules={[
+                  {
+                    required: true,
+                    message: t('ConfirmMessage'),
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error(t('ConfirmPasswordMessage')));
+                    },
+                  }),
+                ]}
+                hasFeedback
+              >
+                <Input.Password autoComplete='off' prefix={<LockOutlined className='site-form-item-icon' />} placeholder={t('ConfirmPassword')} />
               </Form.Item>
             </div>
 
@@ -127,7 +149,7 @@ export function Login(): JSX.Element {
               <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
                 {() => (
                   <Button className='submit-btn' loading={loading} htmlType='submit'>
-                    {t('Login')}
+                    {t('ResetPassword')}
                   </Button>
                 )}
               </Form.Item>

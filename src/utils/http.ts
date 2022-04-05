@@ -88,7 +88,7 @@ HTTP.interceptors.request.use(
     // 为所有的请求设置token
     const token = cookies.get("token");
     if (token) {
-      cnf.headers["TOKEN"] = token;
+      cnf.headers["kstone-api-jwt"] = token;
     }
     return cnf;
   },
@@ -115,6 +115,7 @@ HTTP.interceptors.response.use(
         response.data.msg = msg;
       }
       if (status === 401) {
+        debugger;
         window.location.href = "/login";
       }
       message.error({ content: response.data.message || response.data.msg });

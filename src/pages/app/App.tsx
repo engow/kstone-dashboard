@@ -28,7 +28,7 @@ import { menu } from 'src/configs/menu';
 import { Visualization } from 'src/pages/visualization';
 import { Monitor } from 'src/pages/monitor';
 import { Backup } from 'src/pages/backup';
-import { Login } from 'src/pages/login';
+import { Login, ResetPassword } from 'src/pages/login';
 
 import './App.css';
 
@@ -49,6 +49,7 @@ function App(): JSX.Element {
         { path: 'backup', element: <Backup /> },
       ],
     },
+    { path: '/reset', element: <ResetPassword />},
     { path: '/login', element: <Login /> }
   ];
 
