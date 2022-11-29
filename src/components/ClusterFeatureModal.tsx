@@ -73,7 +73,7 @@ export const ClusterFeatureModal = ({
             const backupValue = JSON.parse(
               data?.metadata?.annotations?.backup ?? '{}',
             );
-            const res = await http.get(`/apis/secrets/cos-${data.metadata.name}`);
+            const res = await http.get(`/apis/secrets/${backupValue.cosSecret}`);
             form.setFieldsValue({
               backupIntervalInSecond: backupValue?.backupPolicy?.backupIntervalInSecond,
               maxBackups: backupValue?.backupPolicy?.maxBackups,

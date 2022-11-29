@@ -65,6 +65,7 @@ export function Monitor(): JSX.Element {
           {t('ClusterMonitor')}:
         </Text>
         <Select
+          showSearch
           style={{ marginTop: '5px', minWidth: '150px' }}
           options={clusterList.map((item: any) => ({
             value: item.metadata.name,

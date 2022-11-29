@@ -153,6 +153,7 @@ export function Backup(): JSX.Element {
             {t('ChooseCluster')}:
           </Text>
           <Select
+            showSearch
             style={{ minWidth: '150px' }}
             value={clusterName}
             onChange={(value) => selectCluster(value)}
